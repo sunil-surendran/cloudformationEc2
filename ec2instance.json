@@ -32,12 +32,15 @@
                 "UserData": {
                       "Fn::Base64":{
                             "Fn::Join": [
-                                "#!/bin/bash\n",
-                                "sudo apt-get update\n",
-                                "sudo apt-get install apache2 -y\n",
-                                "sudo echo \"This is a Test Webserver\" > /var/www/html/index.html\n",
-                                "sudo systemctl enable apache2\n",
-                                "sudo systemctl start apache2\n"
+                                "",[
+                                        "#!/bin/bash\n",
+                                        "sudo apt-get update\n",
+                                        "sudo apt-get install apache2 -y\n",
+                                        "sudo echo \"This is a Test Webserver\" > /var/www/html/index.html\n",
+                                        "sudo systemctl enable apache2\n",
+                                        "sudo systemctl start apache2\n"
+                                ]
+
                             ]
                       }
                 }
