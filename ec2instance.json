@@ -8,7 +8,9 @@
                         "Ref": "InstanceSecurityGroup"
                     }
                 ],
-                "KeyName": "suniloregonec2",
+                "InstanceType": "t2.micro",
+                "ImageId": "ami-4e79ed36",
+                "KeyName": "suniloregonec2"                
             }
         },
         "InstanceSecurityGroup": {
@@ -21,7 +23,7 @@
                       "FromPort": "22",
                       "ToPort" : "22",
                       "CidrIp": "61.12.88.78/32"
-                    }
+                    },
                     {
                         "IpProtocol": "tcp",
                         "FromPort": "80",
