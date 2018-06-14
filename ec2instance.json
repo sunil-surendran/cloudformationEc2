@@ -1,0 +1,35 @@
+{
+    "Resources": {
+        "sunilEC2Instance":{
+            "Type":"AWS::EC2::Instance",
+            "Properties": {
+                "SecurityGroups": [
+                    {
+                        "Ref": "InstanceSecurityGroup"
+                    }
+                ],
+                "KeyName": "suniloregonec2",
+            }
+        },
+        "InstanceSecurityGroup": {
+            "Type":"AWS::EC2::SecurityGroup",
+            "Properties": {
+                "GroupDescription": "Enable SSH and HTTP access via ports",
+                "SecurityGroupIngress": [
+                    {
+                      "IpProtocol": "tcp",
+                      "FromPort": "22",
+                      "ToPort" : "22",
+                      "CidrIp": "61.12.88.78/32"
+                    }
+                    {
+                        "IpProtocol": "tcp",
+                        "FromPort": "80",
+                        "ToPort": "80",
+                        "CidrIp": "61.12.88.78/32"
+                    }
+                ]
+            }
+        }
+    }
+}
