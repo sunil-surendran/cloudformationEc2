@@ -10,7 +10,25 @@
                 ],
                 "InstanceType": "t2.micro",
                 "ImageId": "ami-4e79ed36",
-                "KeyName": "suniloregonec2"                
+                "KeyName": "suniloregonec2",
+                "Tags": [
+                  {
+                    "Key":"Name",
+                    "Value": "sunil.surendran.ec2"
+                  },
+                  {
+                    "Key":"Owner",
+                    "Value": "sunil.surendran"
+                  },
+                  {
+                    "Key":"ExpirationDate",
+                    "Value":"2018-06-20"
+                  },
+                  {
+                    "Key":"Project",
+                    "Value":"ReanIntern"
+                  }
+                ]
             }
         },
         "InstanceSecurityGroup": {
