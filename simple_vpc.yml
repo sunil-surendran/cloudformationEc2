@@ -37,3 +37,16 @@ Resources:
       CidrBlock: 10.0.3.0/24
       VpcId: !Ref VPC
       MapPublicIpOnLaunch: true
+
+  RouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
+  InternetRoute:
+    Type: AWS::EC2::Route
+    DependsOn: InternetGateway
+    Properties:
+      RouteTableId: !Ref RouteTable
+      GatewayId: !Ref InternetGateway
+      DestinationCidrBlock: 0.0.0.0/0
+
