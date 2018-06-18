@@ -58,3 +58,25 @@ Resources:
     Properties:
       RouteTableId: !Ref RouteTablePrivate
       SubnetId: !Ref SubnetB
+
+  SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "Sunil Security"
+      GroupDescription: "SSH in and out"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        -
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 61.12.88.78/32
+        -
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 61.12.88.78/32
+
+      SecurityGroupEgress:
+        IpProtocol: -1
+        CidrIp: 0.0.0.0/0
