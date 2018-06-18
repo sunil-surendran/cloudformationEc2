@@ -4,9 +4,13 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.0.0.0/16
-      EnableDnsSupport: false
-      EnableDnsHostnames: false
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
       InstanceTenancy: default
+      Tags:
+        -
+          Key: "Name"
+          Value: "sunil-vpc"
 
   InternetGateway:
     Type: AWS::EC2::InternetGateway
@@ -112,20 +116,66 @@ Resources:
     Properties:
       AvailabilityZone: us-west-2a
       InstanceType: t2.micro
-      ImageId: ami-db710fa3
+      ImageId: ami-28e07e50
       KeyName: suniloregonec2
-      SecurityGroupIds:
-        - !Ref SecurityGroup
-      SubnetId: !Ref SubnetA
+      Tags:
+        -
+          Key: "Name"
+          Value: "sunil.webserver"
+        -
+          Key: "Owner"
+          Value: "sunil.surendran"
+        -
+          Key: "ExpirationDate"
+          Value: "2018-06-20"
+        -
+          Key: "Project"
+          Value: "Trainee"
+        -
+          Key: "Environment"
+          Value: "Learning"
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          curl -O https://bootstrap.pypa.io/get-pip.py
+          yum install httpd -y
+          echo "<h2>This is the webserver<h2>" > /var/www/html/index.html
+          systemctl start httpd
+          systemctl enable httpd
+      NetworkInterfaces:
+        -
+          DeleteOnTermination: true
+          AssociatePublicIpAddress: true
+          Description: "Primary Network Interface"
+          DeviceIndex: 0
+          PrivateIpAddress: 10.0.1.10
+          SubnetId: !Ref SubnetA
+          GroupSet: !Ref SecurityGroup
 
   DatabaseServer:
     Type: AWS::EC2::Instance
     Properties:
       AvailabilityZone: us-west-2b
       InstanceType: t2.micro
-      ImageId: ami-db710fa3
+      ImageId: ami-28e07e50
       KeyName: suniloregonec2
       SecurityGroupIds:
         - !Ref SecurityGroupDB
       SubnetId: !Ref SubnetB
+      Tags:
+        -
+          Key: "Name"
+          Value: "sunil.database"
+        -
+          Key: "Owner"
+          Value: "sunil.surendran"
+        -
+          Key: "ExpirationDate"
+          Value: "2018-06-20"
+        -
+          Key: "Project"
+          Value: "Trainee"
+        -
+          Key: "Environment"
+          Value: "Learning"
 
