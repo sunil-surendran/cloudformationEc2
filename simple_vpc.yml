@@ -4,8 +4,8 @@ Resources:
     Type: AWS::EC2::VPC
     Properties:
       CidrBlock: 10.0.0.0/16
-      EnableDnsSupport: true
-      EnableDnsHostnames: true
+      EnableDnsSupport: false
+      EnableDnsHostnames: false
       InstanceTenancy: default
 
   InternetGateway:
@@ -29,7 +29,6 @@ Resources:
       AvailabilityZone: us-west-2b
       CidrBlock: 10.0.2.0/24
       VpcId: !Ref VPC
-      MapPublicIpOnLaunch: true
 
   RouteTablePublic:
     Type: AWS::EC2::RouteTable
@@ -62,8 +61,8 @@ Resources:
   SecurityGroup:
     Type: AWS::EC2::SecurityGroup
     Properties:
-      GroupName: "Sunil Security"
-      GroupDescription: "SSH in and out"
+      GroupName: "Webserver Security"
+      GroupDescription: "SSH,HTTP in and out"
       VpcId: !Ref VPC
       SecurityGroupIngress:
         -
@@ -81,6 +80,33 @@ Resources:
         IpProtocol: -1
         CidrIp: 0.0.0.0/0
 
+  SecurityGroupDB:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupName: "Database Security"
+      GroupDescription: "SSH and MySQL in out"
+      VpcId: !Ref VPC
+      SecurityGroupIngress:
+        -
+          IpProtocol: tcp
+          FromPort: 22
+          ToPort: 22
+          CidrIp: 10.0.0.0/16
+        -
+          IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 10.0.0.0/16
+        -
+          IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 10.0.0.0/16
+
+      SecurityGroupEgress:
+        IpProtocol: -1
+        CidrIp: 0.0.0.0/0
+
   Webserver:
     Type: AWS::EC2::Instance
     Properties:
@@ -89,6 +115,17 @@ Resources:
       ImageId: ami-db710fa3
       KeyName: suniloregonec2
       SecurityGroupIds:
-        -
-          !Ref SecurityGroup
+        - !Ref SecurityGroup
       SubnetId: !Ref SubnetA
+
+  DatabaseServer:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-west-2b
+      InstanceType: t2.micro
+      ImageId: ami-db710fa3
+      KeyName: suniloregonec2
+      SecurityGroupIds:
+        - !Ref SecurityGroupDB
+      SubnetId: !Ref SubnetB
+
