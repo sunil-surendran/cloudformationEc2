@@ -80,3 +80,15 @@ Resources:
       SecurityGroupEgress:
         IpProtocol: -1
         CidrIp: 0.0.0.0/0
+
+  Webserver:
+    Type: AWS::EC2::Instance
+    Properties:
+      AvailabilityZone: us-west-2a
+      InstanceType: t2.micro
+      ImageId: ami-db710fa3
+      KeyName: suniloregonec2
+      SecurityGroupIds:
+        -
+          !Ref SecurityGroup
+      SubnetId: !Ref SubnetA
