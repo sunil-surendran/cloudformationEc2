@@ -30,15 +30,8 @@ Resources:
       CidrBlock: 10.0.2.0/24
       VpcId: !Ref VPC
       MapPublicIpOnLaunch: true
-  SubnetC:
-    Type: AWS::EC2::Subnet
-    Properties:
-      AvailabilityZone: us-west-2c
-      CidrBlock: 10.0.3.0/24
-      VpcId: !Ref VPC
-      MapPublicIpOnLaunch: true
 
-  RouteTable:
+  RouteTablePublic:
     Type: AWS::EC2::RouteTable
     Properties:
       VpcId: !Ref VPC
@@ -46,7 +39,11 @@ Resources:
     Type: AWS::EC2::Route
     DependsOn: InternetGateway
     Properties:
-      RouteTableId: !Ref RouteTable
+      RouteTableId: !Ref RouteTablePublic
       GatewayId: !Ref InternetGateway
       DestinationCidrBlock: 0.0.0.0/0
 
+  RouteTablePrivate:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPC
